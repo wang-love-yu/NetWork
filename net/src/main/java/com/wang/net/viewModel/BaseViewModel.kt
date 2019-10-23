@@ -8,7 +8,7 @@ import com.wang.net.model.JudgeResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class BaseViewModel : ViewModel() {
+open class BaseViewModel : ViewModel() {
 
     private val TAG = "BaseViewModel"
     //通过改变值，视图层监听开始，结束
