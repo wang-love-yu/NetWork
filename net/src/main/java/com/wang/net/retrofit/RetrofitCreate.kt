@@ -32,8 +32,9 @@ open class RetrofitCreate {
         ArrayList<Interceptor>()
     }
 
-    fun setBaseUrl(url: String) {
+    fun setBaseUrl(url: String): RetrofitCreate {
         mBaseUrl = url
+        return this
     }
 
     //设置okhttp拦截器
