@@ -14,7 +14,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-class RetrofitCreate {
+open class RetrofitCreate {
     private var mBaseUrl: String? = null
     private var mOkHttpClient: OkHttpClient? = null
     private var mConnectTimeout: Long = 10

@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         resultBean.code = "!234"
         resultBean.isStatus = false
         BaseViewModel()
-            .launch2({
+            .launch({
                 Log.d(TAG, "onCreate: 111")
                 resultBean
             }, {
