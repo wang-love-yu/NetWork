@@ -112,7 +112,9 @@ open class RetrofitCreate {
             builder.addCallAdapterFactory(it)
 
         }
-        builder.client(mOkHttpClient)
+        builder
+            .baseUrl(mBaseUrl)
+            .client(mOkHttpClient)
         return builder.build().create(serviceClass)
     }
 

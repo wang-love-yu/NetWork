@@ -6,8 +6,8 @@ package com.wang.net.model
 data class JudgeResource<T>(val status: Boolean, val data: T?, val message: String?) {
     companion object {
 
-        fun <T> success(data: T?) = JudgeResource(true, data, null)
+       open fun <T> success(data: T?) = JudgeResource(true, data, null)
 
-        fun <T> error(msg: String?, data: T? = null) = JudgeResource(false, data, msg)
+        open fun <T> error(msg: String?, data: T? = null) = JudgeResource(false, data, msg)
     }
 }
