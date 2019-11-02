@@ -38,7 +38,7 @@ open class RetrofitCreate {
     }
 
     //设置okhttp拦截器
-    fun setInterceptor(vararg interceptor: Interceptor): RetrofitCreate {
+    fun addInterceptor(vararg interceptor: Interceptor): RetrofitCreate {
         interceptor?.forEach {
             mInterceptorList.add(it)
         }
@@ -56,7 +56,7 @@ open class RetrofitCreate {
     }
 
     //设置okhttp网络拦截器
-    fun setNetWorkInterceptor(vararg interceptor: Interceptor): RetrofitCreate {
+    fun addNetWorkInterceptor(vararg interceptor: Interceptor): RetrofitCreate {
         interceptor?.forEach {
             mInterceptorList.add(it)
         }
@@ -64,7 +64,7 @@ open class RetrofitCreate {
     }
 
     //设置ConverterFactory
-    fun setConverFactory(vararg factorys: Converter.Factory): RetrofitCreate {
+    fun addConverFactory(vararg factorys: Converter.Factory): RetrofitCreate {
         factorys?.forEach {
             mConverFactoryList.add(it)
         }
@@ -72,7 +72,7 @@ open class RetrofitCreate {
     }
 
     //设置ConverterFactory
-    fun setCallAdpterFactory(vararg factorys: CallAdapter.Factory): RetrofitCreate {
+    fun addCallAdpterFactory(vararg factorys: CallAdapter.Factory): RetrofitCreate {
         factorys?.forEach {
             mCallAdapterList.add(it)
         }
