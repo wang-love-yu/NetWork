@@ -24,7 +24,7 @@ open class BaseViewModel : ViewModel() {
      * @param isShowLoading 是否修改mIsLoadingLiveData 通过改变值，视图层可以监听请求开始，结束 （可以用来显示隐藏加载框)
      * ***/
 
-    fun <T, V> launch(
+  open  fun <T, V> launch(
         execute: suspend () -> T,
         judgment: suspend (T) -> JudgeResource<V>,
         success: suspend (V?) -> Unit,
