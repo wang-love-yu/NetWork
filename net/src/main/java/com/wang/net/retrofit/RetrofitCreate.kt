@@ -28,7 +28,7 @@ open class RetrofitCreate {
     private val mInterceptorList: ArrayList<Interceptor> by lazy {
         ArrayList<Interceptor>()
     }
-    private val mNetWorknterceptorList: ArrayList<Interceptor> by lazy {
+    private val mNetWorkInterceptorList: ArrayList<Interceptor> by lazy {
         ArrayList<Interceptor>()
     }
 
@@ -96,7 +96,7 @@ open class RetrofitCreate {
                 builder.addInterceptor(it)
             }
             //添加网络拦截器
-            mNetWorknterceptorList?.forEach {
+            mNetWorkInterceptorList?.forEach {
                 builder.addNetworkInterceptor(it)
             }
             //设置超时时间
