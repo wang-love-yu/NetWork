@@ -47,8 +47,8 @@ open class BaseViewModel : ViewModel() {
                     updateLoadingLiveData(isShowLoading, false)
 
                 }
-            } catch (e: RequestThrowable) {
-                failed(e)
+            } catch (e: Throwable) {
+                failed(RequestThrowable(e.message))
                 mIsLoadingLiveData.value = false
                 updateLoadingLiveData(isShowLoading, false)
 
