@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wang.net.exception.RequestThrowable
 import com.wang.net.model.JudgeResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,11 +25,11 @@ open class BaseViewModel : ViewModel() {
      * @param isShowLoading 是否修改mIsLoadingLiveData 通过改变值，视图层可以监听请求开始，结束 （可以用来显示隐藏加载框)
      * ***/
 
-  open  fun <T, V> launch(
+    open fun <T, V> launch(
         execute: suspend () -> T,
         judgment: suspend (T) -> JudgeResource<V>,
         success: suspend (V?) -> Unit,
-        failed: (suspend (Throwable) -> Unit) = {
+        failed: (suspend (RequestThrowable) -> Unit) = {
             Log.d(TAG, "launch: e= ${it.message}")
         }
         , isShowLoading: Boolean = true
@@ -42,11 +43,11 @@ open class BaseViewModel : ViewModel() {
                     success(juide.data)
                     updateLoadingLiveData(isShowLoading, false)
                 } else {
-                    failed(Throwable(juide.message))
+                    failed(RequestThrowable(juide.message, juide.errCode))
                     updateLoadingLiveData(isShowLoading, false)
 
                 }
-            } catch (e: Throwable) {
+            } catch (e: RequestThrowable) {
                 failed(e)
                 mIsLoadingLiveData.value = false
                 updateLoadingLiveData(isShowLoading, false)
