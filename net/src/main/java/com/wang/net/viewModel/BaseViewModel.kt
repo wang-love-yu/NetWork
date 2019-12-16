@@ -56,6 +56,43 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
+/***
+ *
+ * @param errorJudge 新增异常自行判断
+ * **/
+    open fun <T, V> launch2(
+        execute: suspend () -> T,
+        judgment: suspend (T) -> JudgeResource<V>,
+        success: suspend (V?) -> Unit,
+        failed: (suspend (RequestThrowable) -> Unit) = {
+            Log.d(TAG, "launch: e= ${it.message}")
+        }
+        ,
+        errorJudge: (suspend (Throwable) -> RequestThrowable),
+        isShowLoading: Boolean = true
+    ) {
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                updateLoadingLiveData(isShowLoading, true)
+                var result = execute()
+                var juide = judgment(result)
+                if (juide.status) {
+                    success(juide.data)
+                    updateLoadingLiveData(isShowLoading, false)
+                } else {
+                    failed(RequestThrowable(juide.message, juide.errCode))
+                    updateLoadingLiveData(isShowLoading, false)
+                }
+            } catch (e: Throwable) {
+                failed(errorJudge(e))
+                //failed(RequestThrowable(e.message))
+                mIsLoadingLiveData.value = false
+                updateLoadingLiveData(isShowLoading, false)
+            }
+        }
+    }
+
+
     /***
      * @param isShowLoading 是否展示loading
      * @param status 状态值
