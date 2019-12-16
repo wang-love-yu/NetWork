@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wang.net.exception.RequestThrowable
+import com.wang.net.exception.ResponseThrowable
 import com.wang.net.model.JudgeResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ open class BaseViewModel : ViewModel() {
         execute: suspend () -> T,
         judgment: suspend (T) -> JudgeResource<V>,
         success: suspend (V?) -> Unit,
-        failed: (suspend (RequestThrowable) -> Unit) = {
+        failed: (suspend (ResponseThrowable) -> Unit) = {
             Log.d(TAG, "launch: e= ${it.message}")
         }
         , isShowLoading: Boolean = true
@@ -43,12 +43,12 @@ open class BaseViewModel : ViewModel() {
                     success(juide.data)
                     updateLoadingLiveData(isShowLoading, false)
                 } else {
-                    failed(RequestThrowable(juide.message, juide.errCode))
+                    failed(ResponseThrowable(juide.message, juide.errCode))
                     updateLoadingLiveData(isShowLoading, false)
 
                 }
             } catch (e: Throwable) {
-                failed(RequestThrowable(e.message))
+                failed(ResponseThrowable(e.message))
                 mIsLoadingLiveData.value = false
                 updateLoadingLiveData(isShowLoading, false)
 
@@ -61,15 +61,15 @@ open class BaseViewModel : ViewModel() {
  * @param errorJudge 新增异常自行判断
  * **/
     open fun <T, V> launch2(
-        execute: suspend () -> T,
-        judgment: suspend (T) -> JudgeResource<V>,
-        success: suspend (V?) -> Unit,
-        failed: (suspend (RequestThrowable) -> Unit) = {
+    execute: suspend () -> T,
+    judgment: suspend (T) -> JudgeResource<V>,
+    success: suspend (V?) -> Unit,
+    failed: (suspend (ResponseThrowable) -> Unit) = {
             Log.d(TAG, "launch: e= ${it.message}")
         }
-        ,
-        errorJudge: (suspend (Throwable) -> RequestThrowable),
-        isShowLoading: Boolean = true
+    ,
+    errorJudge: (suspend (Throwable) -> ResponseThrowable),
+    isShowLoading: Boolean = true
     ) {
         viewModelScope.launch(Dispatchers.Main) {
             try {
@@ -80,12 +80,12 @@ open class BaseViewModel : ViewModel() {
                     success(juide.data)
                     updateLoadingLiveData(isShowLoading, false)
                 } else {
-                    failed(RequestThrowable(juide.message, juide.errCode))
+                    failed(ResponseThrowable(juide.message, juide.errCode))
                     updateLoadingLiveData(isShowLoading, false)
                 }
             } catch (e: Throwable) {
                 failed(errorJudge(e))
-                //failed(RequestThrowable(e.message))
+                //failed(ResponseThrowable(e.message))
                 mIsLoadingLiveData.value = false
                 updateLoadingLiveData(isShowLoading, false)
             }
