@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wang.net.exception.ResponseThrowable
 import com.wang.net.model.JudgeResource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,10 +27,10 @@ open class BaseViewModel : ViewModel() {
      * ***/
 
     open fun <T, V> launch(
-        execute: suspend () -> T,
-        judgment: suspend (T) -> JudgeResource<V>,
-        success: suspend (V?) -> Unit,
-        failed: (suspend (ResponseThrowable) -> Unit) = {
+        execute: suspend CoroutineScope.() -> T,
+        judgment: suspend CoroutineScope.(T) -> JudgeResource<V>,
+        success: suspend CoroutineScope.(V?) -> Unit,
+        failed: (suspend CoroutineScope.(ResponseThrowable) -> Unit) = {
             Log.d(TAG, "launch: e= ${it.message}")
         }
         , isShowLoading: Boolean = true
@@ -61,14 +62,14 @@ open class BaseViewModel : ViewModel() {
  * @param errorJudge 新增异常自行判断
  * **/
     open fun <T, V> launch2(
-    execute: suspend () -> T,
-    judgment: suspend (T) -> JudgeResource<V>,
-    success: suspend (V?) -> Unit,
-    failed: (suspend (ResponseThrowable) -> Unit) = {
+    execute: suspend CoroutineScope.() -> T,
+    judgment: suspend CoroutineScope.(T) -> JudgeResource<V>,
+    success: suspend CoroutineScope.(V?) -> Unit,
+    failed: (suspend CoroutineScope.(ResponseThrowable) -> Unit) = {
             Log.d(TAG, "launch: e= ${it.message}")
         }
     ,
-    errorJudge: (suspend (Throwable) -> ResponseThrowable),
+    errorJudge: (suspend CoroutineScope.(Throwable) -> ResponseThrowable),
     isShowLoading: Boolean = true
     ) {
         viewModelScope.launch(Dispatchers.Main) {

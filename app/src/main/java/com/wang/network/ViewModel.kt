@@ -4,5 +4,7 @@ import com.wang.net.viewModel.BaseViewModel
 
 class ViewModel :BaseViewModel() {
 
+    fun test(){
 
+    }
 }
