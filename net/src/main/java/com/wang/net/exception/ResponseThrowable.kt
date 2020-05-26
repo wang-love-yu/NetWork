@@ -8,6 +8,6 @@ import android.webkit.ConsoleMessage
  * @param others 自行设置
  *
  * **/
-class ResponseThrowable(message: String?, var errorCode: String? = null, others: Any? = null) :
+class ResponseThrowable(var message: String?, var errorCode: String? = null, var others: Any? = null) :
     Throwable(message) {
 }

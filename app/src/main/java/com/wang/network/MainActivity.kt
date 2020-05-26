@@ -33,4 +33,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "onCreate: wo fail error = ${it.message}")
             })
     }
+    fun sendSms(){
+
+    }
 }
